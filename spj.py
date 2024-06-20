@@ -80,7 +80,7 @@ class SQLLogic(sqlListener):
         self.curr_node.set_LChild(JoinNode(attr[0], attr[1]))
         self.curr_node = self.curr_node.give_LChind()
         self.curr_node.set_RChild(rtable)
-        self.curr_node.set_LChild(TableNode(ctx.table().var().getText())) 
+        self.curr_node.set_LChild(TableNode(ctx.table().var().getText(), 'data')) 
 
 
     # Exit a parse tree produced by sqlParser#join.
@@ -123,7 +123,7 @@ class SQLLogic(sqlListener):
                 self.curr_node.set_LChild(WhereNode(attr[0], attr[1], cond.comparison().getText()))
             self.curr_node = self.curr_node.give_LChind()
 
-        self.curr_node.set_LChild(TableNode(ctx.table().var().getText()))
+        self.curr_node.set_LChild(TableNode(ctx.table().var().getText(), 'data'))
 
 
     # Exit a parse tree produced by sqlParser#from.

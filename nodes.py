@@ -163,6 +163,7 @@ class WhereNode(AbstractNode):
         res = False
         if self.a not in row:
             self.a, self.b = self.b, self.a
+            self.comps = ['<' if comp == '>' else '>' if comp == '<' else '=' for comp in self.comps]
 
         if '<' in self.comps:
             if(self.b.isdigit() and row[self.a].isdigit()):
@@ -173,7 +174,7 @@ class WhereNode(AbstractNode):
             if(self.b.isdigit() and row[self.a].isdigit()):
                 res = res or (int(row[self.a]) > int(self.b))
             else:
-                res = res or (row[self.a] > int(self.b))
+                res = res or (row[self.a] > self.b)
         if '=' in self.comps:
             if(self.b.isdigit() and row[self.a].isdigit()):
                 res = res or (int(self.b) == int(row[self.a]))
@@ -231,10 +232,10 @@ class WhereNode(AbstractNode):
 
 class TableNode(AbstractNode):
     __file_stream = None
-    def __init__(self, table_name: str):
+    def __init__(self, table_name: str, path: str):
         super().__init__()
         self.table_name = table_name
-        self.table_path = f'data/{table_name}.csv'
+        self.table_path = f'{path}/{table_name}.csv'
 
     def open(self):
         self.__file_stream = open(self.table_path, 'r')
