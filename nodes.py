@@ -90,20 +90,6 @@ class JoinNode(AbstractNode):
         self.col1 = col1
         self.col2 = col2
 
-    def open(self):
-        self.iter_for_next = self.get_iter_for_next()
-        self.give_RChind().open()
-        self.give_LChind().open()
-
-    def close(self):
-        self.iter_for_next = None
-        self.give_RChind().close()
-        self.give_LChind().close()
-
-    def reset(self):
-        super().reset()
-        self.iter_for_next = self.get_iter_for_next()
-
     def get_iter_for_next(self):
         rtable = self.give_RChind()
         ltable = self.give_LChind()
@@ -133,12 +119,6 @@ class JoinNode(AbstractNode):
         if len(self._AbstractNode__internalState) != 0:
             yield self._AbstractNode__internalState
 
-    def get_next(self):
-        try:
-            return next(self.iter_for_next)
-        except StopIteration:
-            return None
-
 
 class WhereNode(AbstractNode):
     def __init__(self, a: str, b: str, comps: list[str]):
@@ -146,18 +126,6 @@ class WhereNode(AbstractNode):
         self.a = a
         self.b = b
         self.comps = comps
-
-    def open(self):
-        self.iter_for_next = self.get_iter_for_next()
-        self.give_LChind().open()
-
-    def close(self):
-        self.iter_for_next = None
-        self.give_LChind().close()
-
-    def reset(self):
-        super().reset()
-        self.iter_for_next = self.get_iter_for_next()
 
     def check_with_var(self, row):
         res = False
@@ -223,12 +191,6 @@ class WhereNode(AbstractNode):
         if len(self._AbstractNode__internalState) != 0:
             yield self._AbstractNode__internalState
 
-    def get_next(self):
-        try:
-            return next(self.iter_for_next)
-        except StopIteration:
-            return None
-
 
 class TableNode(AbstractNode):
     __file_stream = None
@@ -240,11 +202,11 @@ class TableNode(AbstractNode):
 
     def open(self):
         self.__file_stream = open(self.table_path, 'r')
-        self.iter_for_next = self.get_iter_for_next()
+        super().open()
 
     def close(self):
-        self.iter_for_next = None
         self.__file_stream.close()
+        super().close()
 
     def get_iter_for_next(self):
         reader = csv.DictReader(self.__file_stream, delimiter=' ', quotechar='|')
@@ -256,12 +218,6 @@ class TableNode(AbstractNode):
                 self._AbstractNode__internalState = []
         if len(self._AbstractNode__internalState) != 0:
             yield [{f'{self.table_name}.{k}': v for k, v in row.items()} for row in self._AbstractNode__internalState]
-
-    def get_next(self):
-        try:
-            return next(self.iter_for_next)
-        except StopIteration:
-            return None
 
     def reset(self):
         super().reset()
