@@ -9,7 +9,7 @@ table : var;
 
 join_condition : attribute EQ attribute;
 
-condition : (attribute|NUM) comparison+ (attribute|NUM);
+condition : (attribute|var) comparison+ (attribute|var);
 
 var : (WORD | NUM)+;
 
@@ -17,11 +17,11 @@ comparison : EQ|LT|GT;
 
 join: 'JOIN' table 'ON' join_condition;
 
-where: 'WHERE' condition;
+where: 'WHERE' condition ('AND' condition)*;
 
 select: 'SELECT' ((ALL | attribute) ',')* (ALL | attribute) from;
 
-from: 'FROM' table join* where*;
+from: 'FROM' table join* where?;
 
 ALL : '*';
 EQ : '=';

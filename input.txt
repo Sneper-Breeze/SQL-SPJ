@@ -1,0 +1,2 @@
+SELECT Users.id, Users.name, Sellings.item, Stats.damage FROM Users JOIN Sellings ON Users.id = Sellings.userId JOIN Stats ON Stats.item = Sellings.item 
+WHERE Users.age > 17;

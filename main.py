@@ -6,6 +6,9 @@ from nodes import AbstractNode
 import sys
 
 
+INPUT_FILE = 'input.txt'
+
+
 def print_bin_tree(node: AbstractNode, ind):
     print('--' * ind + str(node))
 
@@ -17,7 +20,7 @@ def print_bin_tree(node: AbstractNode, ind):
 
 def test(argv):
     print('TEST:')
-    lexer = sqlLexer(antlr4.FileStream('test/input.txt'))
+    lexer = sqlLexer(antlr4.FileStream(INPUT_FILE))
     stream = antlr4.CommonTokenStream(lexer)
     parser = sqlParser(stream)
     tree = parser.query()
@@ -38,7 +41,7 @@ def main(argv):
 
     # input_text = input('> ')
     # lexer = sqlLexer(InputStream(input_text))
-    lexer = sqlLexer(antlr4.FileStream('test/input.txt'))
+    lexer = sqlLexer(antlr4.FileStream(INPUT_FILE))
     stream = antlr4.CommonTokenStream(lexer)
     parser = sqlParser(stream)
     tree = parser.query()

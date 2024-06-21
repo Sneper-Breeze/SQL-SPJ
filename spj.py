@@ -102,16 +102,16 @@ class SQLLogic(sqlListener):
     # Enter a parse tree produced by sqlParser#from.
     def enterFrom(self, ctx: sqlParser.FromContext):
         if (ctx.where()):
-            cond = ctx.where()[0].condition()
-            attr = [el.table().getText()+'.'+el.var().getText() for el in cond.attribute()]
-
-            if (len(cond.NUM()) != 0):
-                self.curr_node.set_LChild(WhereNode(attr[0], cond.NUM()[0].getText(),
-                                                    [comp.getText() for comp in
-                                                     cond.comparison()]))
-            else:
-                self.curr_node.set_LChild(WhereNode(attr[0], attr[1], cond.comparison().getText()))
-            self.curr_node = self.curr_node.give_LChind()
+            conds = ctx.where().condition()
+            for cond in conds:
+                attr = [el.table().getText()+'.'+el.var().getText() for el in cond.attribute()]
+                if (len(cond.var()) != 0):
+                    self.curr_node.set_LChild(WhereNode(attr[0], cond.var()[0].getText(),
+                                                        [comp.getText() for comp in
+                                                        cond.comparison()]))
+                else:
+                    self.curr_node.set_LChild(WhereNode(attr[0], attr[1], cond.comparison().getText()))
+                self.curr_node = self.curr_node.give_LChind()
 
         self.curr_node.set_LChild(TableNode(ctx.table().var().getText(), 'data'))
 
