@@ -80,6 +80,15 @@ class sqlListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by sqlParser#cross_product.
+    def enterCross_product(self, ctx:sqlParser.Cross_productContext):
+        pass
+
+    # Exit a parse tree produced by sqlParser#cross_product.
+    def exitCross_product(self, ctx:sqlParser.Cross_productContext):
+        pass
+
+
     # Enter a parse tree produced by sqlParser#where.
     def enterWhere(self, ctx:sqlParser.WhereContext):
         pass
@@ -89,21 +98,21 @@ class sqlListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by sqlParser#select.
-    def enterSelect(self, ctx:sqlParser.SelectContext):
-        pass
-
-    # Exit a parse tree produced by sqlParser#select.
-    def exitSelect(self, ctx:sqlParser.SelectContext):
-        pass
-
-
     # Enter a parse tree produced by sqlParser#from.
     def enterFrom(self, ctx:sqlParser.FromContext):
         pass
 
     # Exit a parse tree produced by sqlParser#from.
     def exitFrom(self, ctx:sqlParser.FromContext):
+        pass
+
+
+    # Enter a parse tree produced by sqlParser#select.
+    def enterSelect(self, ctx:sqlParser.SelectContext):
+        pass
+
+    # Exit a parse tree produced by sqlParser#select.
+    def exitSelect(self, ctx:sqlParser.SelectContext):
         pass
 
 

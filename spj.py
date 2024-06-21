@@ -1,6 +1,6 @@
 from parser.sqlParser import sqlParser
 from parser.sqlListener import sqlListener
-from nodes import TableNode, WhereNode, JoinNode, SelectNode
+from nodes import TableNode, WhereNode, JoinNode, SelectNode, CrossProductNode
 
 
 class SQLLogic(sqlListener):
@@ -61,6 +61,18 @@ class SQLLogic(sqlListener):
 
     # Exit a parse tree produced by sqlParser#comparison.
     def exitComparison(self, ctx: sqlParser.ComparisonContext):
+        pass
+
+    # Enter a parse tree produced by sqlParser#cross_product.
+    def enterCross_product(self, ctx: sqlParser.Cross_productContext):
+        rtable = self.curr_node.give_LChind()
+        self.curr_node.set_LChild(CrossProductNode())
+        self.curr_node = self.curr_node.give_LChind()
+        self.curr_node.set_RChild(rtable)
+        self.curr_node.set_LChild(TableNode(ctx.table().var().getText(), 'data'))
+
+    # Exit a parse tree produced by sqlParser#cross_product.
+    def exitCross_product(self, ctx: sqlParser.Cross_productContext):
         pass
 
     # Enter a parse tree produced by sqlParser#join.

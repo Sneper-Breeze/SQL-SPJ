@@ -120,6 +120,10 @@ class JoinNode(AbstractNode):
             yield self._AbstractNode__internalState
 
 
+class CrossProductNode(AbstractNode):
+    pass
+
+
 class WhereNode(AbstractNode):
     def __init__(self, a: str, b: str, comps: list[str]):
         super().__init__()

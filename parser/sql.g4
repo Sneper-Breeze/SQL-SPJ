@@ -15,13 +15,15 @@ var : (WORD | NUM)+;
 
 comparison : EQ|LT|GT;
 
-join: 'JOIN' table 'ON' join_condition;
+join: 'JOIN' table (cross_product)* 'ON' join_condition;
+
+cross_product: ',' table;
 
 where: 'WHERE' condition ('AND' condition)*;
 
-select: 'SELECT' ((ALL | attribute) ',')* (ALL | attribute) from;
+from: 'FROM' table (join|cross_product)* where?;
 
-from: 'FROM' table join* where?;
+select: 'SELECT' ((ALL | attribute) ',')* (ALL | attribute) from;
 
 ALL : '*';
 EQ : '=';
