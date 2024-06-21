@@ -1,0 +1,8 @@
+[flake8]
+exclude =
+    __pycache__,
+    venv,
+    parser,
+    test,
+
+max-line-length = 120
