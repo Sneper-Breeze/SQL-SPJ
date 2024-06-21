@@ -1,0 +1,24 @@
+name: CI
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+    - name: install venv
+      run: |
+         sudo apt install python3 -y
+         sudo apt-get install -y python3-pip
+         sudo apt-get install build-essential libssl-dev libffi-dev python-dev
+         sudo apt-get install -y python3-venv
+         mkdir directory_env
+         cd directory_env
+         python -m venv venv
+         source venv/bin/activate
+         pip install -r requirements.txt
+    - name: tests
+      run: |
+          source venv/bin/activate
+          python -m unittest discover -s tests
+          flake8
+        
