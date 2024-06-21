@@ -121,7 +121,31 @@ class JoinNode(AbstractNode):
 
 
 class CrossProductNode(AbstractNode):
-    pass
+    def get_iter_for_next(self):
+        rtable = self.give_RChind()
+        ltable = self.give_LChind()
+
+        rdata_blck = rtable.get_next()
+        while rdata_blck is not None:
+            for rEl in rdata_blck:
+                ldata_blck = ltable.get_next()
+                while ldata_blck is not None:
+                    for lEl in ldata_blck:
+                        lEl.update(rEl)
+                        self._AbstractNode__internalState.append(lEl)
+
+                        if getsizeof(self._AbstractNode__internalState) > self.size_of_tuple:
+                            yield self._AbstractNode__internalState
+                            self._AbstractNode__internalState = []
+
+                    ldata_blck = ltable.get_next()
+
+                ltable.reset()
+
+            rdata_blck = rtable.get_next()
+
+        if len(self._AbstractNode__internalState) != 0:
+            yield self._AbstractNode__internalState
 
 
 class WhereNode(AbstractNode):
