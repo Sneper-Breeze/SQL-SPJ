@@ -3,20 +3,20 @@ from sys import getsizeof
 
 
 class AbstractNode:
-    
+
     def __init__(self):
         self.__LChild = None
         self.__RChild = None
         self.__internalState = []
         self.size_of_tuple = 70
         self.iter_for_next = None
-        
+
     def give_LChind(self):
         return self.__LChild
-    
+
     def give_RChind(self):
         return self.__RChild
-    
+
     def set_LChild(self, node):
         self.__LChild = node
 
@@ -28,16 +28,16 @@ class AbstractNode:
 
     def open(self):
         self.iter_for_next = self.get_iter_for_next()
-        if(self.__RChild != None):
+        if (self.__RChild is not None):
             self.give_RChind().open()
-        if(self.__LChild != None):
+        if (self.__LChild is not None):
             self.give_LChind().open()
 
     def close(self):
         self.iter_for_next = None
-        if(self.__RChild != None):
+        if (self.__RChild is not None):
             self.give_RChind().close()
-        if(self.__LChild != None):
+        if (self.__LChild is not None):
             self.give_LChind().close()
 
     def get_next(self):
@@ -48,9 +48,9 @@ class AbstractNode:
 
     def reset(self):
         self.__internalState = []
-        if(self.__LChild != None):
+        if (self.__LChild is not None):
             self.__LChild.reset()
-        if(self.__RChild != None):
+        if (self.__RChild is not None):
             self.__RChild.reset()
         self.iter_for_next = self.get_iter_for_next()
 
@@ -59,18 +59,18 @@ class SelectNode(AbstractNode):
     def __init__(self, collumns: list[str]):
         super().__init__()
         self.collumns = collumns
-    
+
     def get_only_collumns(self, row):
-        if('*' in self.collumns):
+        if ('*' in self.collumns):
             return row
 
         return {key: row[key] for key in self.collumns}
 
     def get_iter_for_next(self):
         table = self.give_LChind()
-        
+
         data_blck = table.get_next()
-        while data_blck != None:
+        while data_blck is not None:
             for row in data_blck:
                 self._AbstractNode__internalState.append(self.get_only_collumns(row))
 
@@ -107,29 +107,29 @@ class JoinNode(AbstractNode):
     def get_iter_for_next(self):
         rtable = self.give_RChind()
         ltable = self.give_LChind()
-        
+
         rdata_blck = rtable.get_next()
-        while rdata_blck != None:
-            if(self.col2 not in rdata_blck[0]):
+        while rdata_blck is not None:
+            if (self.col2 not in rdata_blck[0]):
                 self.col1, self.col2 = self.col2, self.col1
             for rEl in rdata_blck:
                 ldata_blck = ltable.get_next()
-                while ldata_blck != None:
+                while ldata_blck is not None:
                     for lEl in ldata_blck:
-                        if(lEl[self.col1] == rEl[self.col2]):
+                        if (lEl[self.col1] == rEl[self.col2]):
                             lEl.update(rEl)
                             self._AbstractNode__internalState.append(lEl)
 
                         if getsizeof(self._AbstractNode__internalState) > self.size_of_tuple:
                             yield self._AbstractNode__internalState
-                            self._AbstractNode__internalState = [] 
+                            self._AbstractNode__internalState = []
 
                     ldata_blck = ltable.get_next()
 
                 ltable.reset()
 
             rdata_blck = rtable.get_next()
-        
+
         if len(self._AbstractNode__internalState) != 0:
             yield self._AbstractNode__internalState
 
@@ -146,7 +146,7 @@ class WhereNode(AbstractNode):
         self.a = a
         self.b = b
         self.comps = comps
-    
+
     def open(self):
         self.iter_for_next = self.get_iter_for_next()
         self.give_LChind().open()
@@ -166,17 +166,17 @@ class WhereNode(AbstractNode):
             self.comps = ['<' if comp == '>' else '>' if comp == '<' else '=' for comp in self.comps]
 
         if '<' in self.comps:
-            if(self.b.isdigit() and row[self.a].isdigit()):
+            if (self.b.isdigit() and row[self.a].isdigit()):
                 res = res or (int(row[self.a]) < int(self.b))
             else:
                 res = res or (row[self.a] < self.b)
         if '>' in self.comps:
-            if(self.b.isdigit() and row[self.a].isdigit()):
+            if (self.b.isdigit() and row[self.a].isdigit()):
                 res = res or (int(row[self.a]) > int(self.b))
             else:
                 res = res or (row[self.a] > self.b)
         if '=' in self.comps:
-            if(self.b.isdigit() and row[self.a].isdigit()):
+            if (self.b.isdigit() and row[self.a].isdigit()):
                 res = res or (int(self.b) == int(row[self.a]))
             else:
                 res = res or (self.b == row[self.a])
@@ -185,39 +185,39 @@ class WhereNode(AbstractNode):
     def check_with_atr(self, row):
         res = False
         if '<' in self.comps:
-            if(row[self.b].isdigit() and row[self.a].isdigit()):
+            if (row[self.b].isdigit() and row[self.a].isdigit()):
                 res = res or (int(row[self.a]) < int(row[self.b]))
             else:
                 res = res or (row[self.a] < row[self.b])
         if '>' in self.comps:
-            if(row[self.b].isdigit() and row[self.a].isdigit()):
+            if (row[self.b].isdigit() and row[self.a].isdigit()):
                 res = res or (int(row[self.a]) > int(row[self.b]))
             else:
                 res = res or (row[self.a] > int(row[self.b]))
         if '=' in self.comps:
-            if(row[self.b].isdigit() and row[self.a].isdigit()):
+            if (row[self.b].isdigit() and row[self.a].isdigit()):
                 res = res or (int(row[self.b]) == int(row[self.a]))
             else:
                 res = res or (row[self.b] == row[self.a])
-            
+
         return res
 
     def get_iter_for_next(self):
         table = self.give_LChind()
 
         data_blck = table.get_next()
-        while data_blck != None:
+        while data_blck is not None:
             with_var = (self.a not in data_blck[0] or self.b not in data_blck[0])
 
             for row in data_blck:
-                if with_var == True and self.check_with_var(row):
+                if with_var is True and self.check_with_var(row):
                     self._AbstractNode__internalState.append(row)
-                elif with_var == False and self.check_with_atr(row):
+                elif with_var is False and self.check_with_atr(row):
                     self._AbstractNode__internalState.append(row)
                 if getsizeof(self._AbstractNode__internalState) > self.size_of_tuple:
                     yield self._AbstractNode__internalState
-                    self._AbstractNode__internalState = [] 
-            
+                    self._AbstractNode__internalState = []
+
             data_blck = table.get_next()
 
         if len(self._AbstractNode__internalState) != 0:
@@ -232,6 +232,7 @@ class WhereNode(AbstractNode):
 
 class TableNode(AbstractNode):
     __file_stream = None
+
     def __init__(self, table_name: str, path: str):
         super().__init__()
         self.table_name = table_name
@@ -250,11 +251,11 @@ class TableNode(AbstractNode):
         for row in reader:
             self._AbstractNode__internalState.append(row)
             if getsizeof(self._AbstractNode__internalState) > self.size_of_tuple:
-                yield [{f'{self.table_name}.{k}':v for k,v in row.items()} for row in self._AbstractNode__internalState]
+                yield [{f'{self.table_name}.{k}': v for k, v in row.items()}
+                       for row in self._AbstractNode__internalState]
                 self._AbstractNode__internalState = []
         if len(self._AbstractNode__internalState) != 0:
-            yield [{f'{self.table_name}.{k}':v for k,v in row.items()} for row in self._AbstractNode__internalState]
-            
+            yield [{f'{self.table_name}.{k}': v for k, v in row.items()} for row in self._AbstractNode__internalState]
 
     def get_next(self):
         try:
