@@ -2,9 +2,9 @@ import unittest
 import nodes
 
 
-correct_table = [{'Users.name': 'Max', 'Users.surname': 'Emel'}, 
-                 {'Users.name': 'Anna', 'Users.surname': 'Ask'}, 
-                 {'Users.name': 'Georg', 'Users.surname': 'Chern'}, 
+correct_table = [{'Users.name': 'Max', 'Users.surname': 'Emel'},
+                 {'Users.name': 'Anna', 'Users.surname': 'Ask'},
+                 {'Users.name': 'Georg', 'Users.surname': 'Chern'},
                  {'Users.name': 'Sem', 'Users.surname': 'Smirn'}]
 
 
@@ -22,13 +22,13 @@ class TestSelectNode(unittest.TestCase):
         result = []
 
         data_block = select_node.get_next()
-        while(data_block != None):
+        while (data_block is not None):
             result += data_block
             data_block = select_node.get_next()
 
         select_node.close()
         self.assertListEqual(result, correct_table)
-    
+
     def test_where_reset_scen_1(self):
         """
         Test that check if reset is correct
@@ -42,26 +42,26 @@ class TestSelectNode(unittest.TestCase):
         result = []
 
         # take all data until the end
-        while(select_node.get_next() != None):
+        while (select_node.get_next() is not None):
             pass
-        
+
         select_node.reset()
         result = []
 
         data_block = select_node.get_next()
-        while(data_block != None):
+        while (data_block is not None):
             result += data_block
             data_block = select_node.get_next()
 
         select_node.close()
 
         self.assertListEqual(result, correct_table)
-    
+
     def test_where_reset_scen_2(self):
         """
         Test that check if reset is correct
         """
-        
+
         ltable_node = nodes.TableNode('Users', 'tests/data')
         select_node = nodes.SelectNode(['Users.name', 'Users.surname'])
         select_node.set_LChild(ltable_node)
@@ -72,12 +72,12 @@ class TestSelectNode(unittest.TestCase):
         # take first n blocks of data
         for _ in range(2):
             select_node.get_next()
-        
+
         select_node.reset()
         result = []
 
         data_block = select_node.get_next()
-        while(data_block != None):
+        while (data_block is not None):
             result += data_block
             data_block = select_node.get_next()
 
@@ -85,6 +85,6 @@ class TestSelectNode(unittest.TestCase):
 
         self.assertListEqual(result, correct_table)
 
-    
+
 if __name__ == '__main__':
     unittest.main()
