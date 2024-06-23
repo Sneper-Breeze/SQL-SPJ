@@ -55,7 +55,7 @@ class AbstractNode:
         self.iter_for_next = self.get_iter_for_next()
 
 
-class SelectNode(AbstractNode):
+class ProjectionNode(AbstractNode):
     def __init__(self, collumns: list[str]):
         super().__init__()
         self.collumns = collumns
@@ -148,7 +148,7 @@ class CrossProductNode(AbstractNode):
             yield self._AbstractNode__internalState
 
 
-class WhereNode(AbstractNode):
+class SelectionNode(AbstractNode):
     def __init__(self, a: str, b: str, comps: list[str]):
         super().__init__()
         self.a = a
@@ -220,7 +220,7 @@ class WhereNode(AbstractNode):
             yield self._AbstractNode__internalState
 
 
-class TableNode(AbstractNode):
+class TableReaderNode(AbstractNode):
     __file_stream = None
 
     def __init__(self, table_name: str, path: str):

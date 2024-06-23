@@ -26,8 +26,8 @@ class TestCrossProductNode(unittest.TestCase):
         Test that check if get_next is correct
         """
 
-        rtable_node = nodes.TableNode('SellingsSmall', 'tests/data')
-        ltable_node = nodes.TableNode('Stats', 'tests/data')
+        rtable_node = nodes.TableReaderNode('SellingsSmall', 'tests/data')
+        ltable_node = nodes.TableReaderNode('Stats', 'tests/data')
         cross_product_node = nodes.CrossProductNode()
         cross_product_node.set_LChild(ltable_node)
         cross_product_node.set_RChild(rtable_node)
@@ -47,8 +47,8 @@ class TestCrossProductNode(unittest.TestCase):
         Test that check if reset is correct
         """
 
-        rtable_node = nodes.TableNode('SellingsSmall', 'tests/data')
-        ltable_node = nodes.TableNode('Stats', 'tests/data')
+        rtable_node = nodes.TableReaderNode('SellingsSmall', 'tests/data')
+        ltable_node = nodes.TableReaderNode('Stats', 'tests/data')
         cross_product_node = nodes.CrossProductNode()
         cross_product_node.set_LChild(ltable_node)
         cross_product_node.set_RChild(rtable_node)
@@ -77,8 +77,8 @@ class TestCrossProductNode(unittest.TestCase):
         Test that check if reset is correct
         """
 
-        rtable_node = nodes.TableNode('SellingsSmall', 'tests/data')
-        ltable_node = nodes.TableNode('Stats', 'tests/data')
+        rtable_node = nodes.TableReaderNode('SellingsSmall', 'tests/data')
+        ltable_node = nodes.TableReaderNode('Stats', 'tests/data')
         cross_product_node = nodes.CrossProductNode()
         cross_product_node.set_LChild(ltable_node)
         cross_product_node.set_RChild(rtable_node)

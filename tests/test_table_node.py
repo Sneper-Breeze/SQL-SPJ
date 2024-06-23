@@ -13,7 +13,7 @@ class TestTableNode(unittest.TestCase):
         Test that check if get_next is correct
         """
 
-        table_node = nodes.TableNode('Sellings', 'tests/data')
+        table_node = nodes.TableReaderNode('Sellings', 'tests/data')
         table_node.open()
         result = []
 
@@ -31,7 +31,7 @@ class TestTableNode(unittest.TestCase):
         Test that check if reset is correct
         """
 
-        table_node = nodes.TableNode('Sellings', 'tests/data')
+        table_node = nodes.TableReaderNode('Sellings', 'tests/data')
         table_node.open()
 
         # take all data until the end
@@ -55,7 +55,7 @@ class TestTableNode(unittest.TestCase):
         Test that check if reset is correct
         """
 
-        table_node = nodes.TableNode('Sellings', 'tests/data')
+        table_node = nodes.TableReaderNode('Sellings', 'tests/data')
         table_node.open()
 
         # take first n blocks of data

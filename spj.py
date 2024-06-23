@@ -1,6 +1,6 @@
 from parser.sqlParser import sqlParser
 from parser.sqlListener import sqlListener
-from nodes import TableNode, WhereNode, JoinNode, SelectNode, CrossProductNode
+from nodes import TableReaderNode, SelectionNode, JoinNode, ProjectionNode, CrossProductNode
 
 
 class SQLLogic(sqlListener):
@@ -69,7 +69,7 @@ class SQLLogic(sqlListener):
         self.curr_node.set_LChild(CrossProductNode())
         self.curr_node = self.curr_node.give_LChind()
         self.curr_node.set_RChild(rtable)
-        self.curr_node.set_LChild(TableNode(ctx.table().var().getText(), 'data'))
+        self.curr_node.set_LChild(TableReaderNode(ctx.table().var().getText(), 'data'))
 
     # Exit a parse tree produced by sqlParser#cross_product.
     def exitCross_product(self, ctx: sqlParser.Cross_productContext):
@@ -82,7 +82,7 @@ class SQLLogic(sqlListener):
         self.curr_node.set_LChild(JoinNode(attr[0], attr[1]))
         self.curr_node = self.curr_node.give_LChind()
         self.curr_node.set_RChild(rtable)
-        self.curr_node.set_LChild(TableNode(ctx.table().var().getText(), 'data'))
+        self.curr_node.set_LChild(TableReaderNode(ctx.table().var().getText(), 'data'))
 
     # Exit a parse tree produced by sqlParser#join.
     def exitJoin(self, ctx: sqlParser.JoinContext):
@@ -104,7 +104,7 @@ class SQLLogic(sqlListener):
         for attr in ctx.attribute():
             collumns.append(attr.table().getText()+'.'+attr.var().getText())
 
-        self.root = SelectNode(collumns)
+        self.root = ProjectionNode(collumns)
         self.curr_node = self.root
 
     # Exit a parse tree produced by sqlParser#select.
@@ -118,14 +118,14 @@ class SQLLogic(sqlListener):
             for cond in conds:
                 attr = [el.table().getText()+'.'+el.var().getText() for el in cond.attribute()]
                 if (len(cond.var()) != 0):
-                    self.curr_node.set_LChild(WhereNode(attr[0], cond.var()[0].getText(),
+                    self.curr_node.set_LChild(SelectionNode(attr[0], cond.var()[0].getText(),
                                                         [comp.getText() for comp in
                                                         cond.comparison()]))
                 else:
-                    self.curr_node.set_LChild(WhereNode(attr[0], attr[1], cond.comparison().getText()))
+                    self.curr_node.set_LChild(SelectionNode(attr[0], attr[1], cond.comparison().getText()))
                 self.curr_node = self.curr_node.give_LChind()
 
-        self.curr_node.set_LChild(TableNode(ctx.table().var().getText(), 'data'))
+        self.curr_node.set_LChild(TableReaderNode(ctx.table().var().getText(), 'data'))
 
     # Exit a parse tree produced by sqlParser#from.
     def exitFrom(self, ctx: sqlParser.FromContext):

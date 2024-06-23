@@ -16,8 +16,8 @@ class TestJoinNode(unittest.TestCase):
         Test that check if get_next is correct
         """
 
-        rtable_node = nodes.TableNode('Sellings', 'tests/data')
-        ltable_node = nodes.TableNode('Stats', 'tests/data')
+        rtable_node = nodes.TableReaderNode('Sellings', 'tests/data')
+        ltable_node = nodes.TableReaderNode('Stats', 'tests/data')
         join_node = nodes.JoinNode('Sellings.item', 'Stats.item')
         join_node.set_LChild(ltable_node)
         join_node.set_RChild(rtable_node)
@@ -38,8 +38,8 @@ class TestJoinNode(unittest.TestCase):
         Test that check if reset is correct
         """
 
-        rtable_node = nodes.TableNode('Sellings', 'tests/data')
-        ltable_node = nodes.TableNode('Stats', 'tests/data')
+        rtable_node = nodes.TableReaderNode('Sellings', 'tests/data')
+        ltable_node = nodes.TableReaderNode('Stats', 'tests/data')
         join_node = nodes.JoinNode('Sellings.item', 'Stats.item')
         join_node.set_LChild(ltable_node)
         join_node.set_RChild(rtable_node)
@@ -68,8 +68,8 @@ class TestJoinNode(unittest.TestCase):
         Test that check if reset is correct
         """
 
-        rtable_node = nodes.TableNode('Sellings', 'tests/data')
-        ltable_node = nodes.TableNode('Stats', 'tests/data')
+        rtable_node = nodes.TableReaderNode('Sellings', 'tests/data')
+        ltable_node = nodes.TableReaderNode('Stats', 'tests/data')
         join_node = nodes.JoinNode('Sellings.item', 'Stats.item')
         join_node.set_LChild(ltable_node)
         join_node.set_RChild(rtable_node)

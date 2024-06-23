@@ -14,8 +14,8 @@ class TestSelectNode(unittest.TestCase):
         Test that check if get_next is correct
         """
 
-        ltable_node = nodes.TableNode('Users', 'tests/data')
-        select_node = nodes.SelectNode(['Users.name', 'Users.surname'])
+        ltable_node = nodes.TableReaderNode('Users', 'tests/data')
+        select_node = nodes.ProjectionNode(['Users.name', 'Users.surname'])
         select_node.set_LChild(ltable_node)
         select_node.open()
 
@@ -34,8 +34,8 @@ class TestSelectNode(unittest.TestCase):
         Test that check if reset is correct
         """
 
-        ltable_node = nodes.TableNode('Users', 'tests/data')
-        select_node = nodes.SelectNode(['Users.name', 'Users.surname'])
+        ltable_node = nodes.TableReaderNode('Users', 'tests/data')
+        select_node = nodes.ProjectionNode(['Users.name', 'Users.surname'])
         select_node.set_LChild(ltable_node)
         select_node.open()
 
@@ -62,8 +62,8 @@ class TestSelectNode(unittest.TestCase):
         Test that check if reset is correct
         """
 
-        ltable_node = nodes.TableNode('Users', 'tests/data')
-        select_node = nodes.SelectNode(['Users.name', 'Users.surname'])
+        ltable_node = nodes.TableReaderNode('Users', 'tests/data')
+        select_node = nodes.ProjectionNode(['Users.name', 'Users.surname'])
         select_node.set_LChild(ltable_node)
         select_node.open()
 

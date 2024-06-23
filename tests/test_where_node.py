@@ -9,8 +9,8 @@ class TestWhereNode(unittest.TestCase):
         """
         answer = [{'Stats.item': 'sword', 'Stats.damage': '10', 'Stats.cost': '5'}]
 
-        ltable_node = nodes.TableNode('Stats', 'tests/data')
-        where_node = nodes.WhereNode('Stats.item', 'sword', ['='])
+        ltable_node = nodes.TableReaderNode('Stats', 'tests/data')
+        where_node = nodes.SelectionNode('Stats.item', 'sword', ['='])
         where_node.set_LChild(ltable_node)
         where_node.open()
 
@@ -31,8 +31,8 @@ class TestWhereNode(unittest.TestCase):
         answer = [{'Stats.item': 'shield', 'Stats.damage': '1', 'Stats.cost': '2'},
                   {'Stats.item': 'bow', 'Stats.damage': '7', 'Stats.cost': '7'},]
 
-        ltable_node = nodes.TableNode('Stats', 'tests/data')
-        where_node = nodes.WhereNode('Stats.damage', 'Stats.cost', ['<', '='])
+        ltable_node = nodes.TableReaderNode('Stats', 'tests/data')
+        where_node = nodes.SelectionNode('Stats.damage', 'Stats.cost', ['<', '='])
         where_node.set_LChild(ltable_node)
         where_node.open()
 
@@ -52,8 +52,8 @@ class TestWhereNode(unittest.TestCase):
         """
         answer = [{'Stats.item': 'sword', 'Stats.damage': '10', 'Stats.cost': '5'}]
 
-        ltable_node = nodes.TableNode('Stats', 'tests/data')
-        where_node = nodes.WhereNode('shield', 'Stats.item', ['<'])
+        ltable_node = nodes.TableReaderNode('Stats', 'tests/data')
+        where_node = nodes.SelectionNode('shield', 'Stats.item', ['<'])
         where_node.set_LChild(ltable_node)
         where_node.open()
 
@@ -74,8 +74,8 @@ class TestWhereNode(unittest.TestCase):
         answer = [{'Stats.item': 'shield', 'Stats.damage': '1', 'Stats.cost': '2'},
                   {'Stats.item': 'bow', 'Stats.damage': '7', 'Stats.cost': '7'},]
 
-        ltable_node = nodes.TableNode('Stats', 'tests/data')
-        where_node = nodes.WhereNode('Stats.damage', 'Stats.cost', ['<', '='])
+        ltable_node = nodes.TableReaderNode('Stats', 'tests/data')
+        where_node = nodes.SelectionNode('Stats.damage', 'Stats.cost', ['<', '='])
         where_node.set_LChild(ltable_node)
         where_node.open()
 
@@ -105,8 +105,8 @@ class TestWhereNode(unittest.TestCase):
         answer = [{'Stats.item': 'shield', 'Stats.damage': '1', 'Stats.cost': '2'},
                   {'Stats.item': 'bow', 'Stats.damage': '7', 'Stats.cost': '7'},]
 
-        ltable_node = nodes.TableNode('Stats', 'tests/data')
-        where_node = nodes.WhereNode('Stats.damage', 'Stats.cost', ['<', '='])
+        ltable_node = nodes.TableReaderNode('Stats', 'tests/data')
+        where_node = nodes.SelectionNode('Stats.damage', 'Stats.cost', ['<', '='])
         where_node.set_LChild(ltable_node)
         where_node.open()
 
