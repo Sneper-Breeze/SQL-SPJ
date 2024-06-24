@@ -122,7 +122,8 @@ class SQLLogic(sqlListener):
                                                             [comp.getText() for comp in
                                                              cond.comparison()]))
                 else:
-                    self.curr_node.set_LChild(SelectionNode(attr[0], attr[1], cond.comparison().getText()))
+                    self.curr_node.set_LChild(SelectionNode(attr[0], attr[1], [comp.getText() for comp in
+                                                                               cond.comparison()]))
                 self.curr_node = self.curr_node.give_LChind()
 
         self.curr_node.set_LChild(TableReaderNode(ctx.table().var().getText(), 'data'))
