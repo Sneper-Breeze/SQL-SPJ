@@ -6,7 +6,7 @@ from nodes import AbstractNode
 import sys
 
 
-# INPUT_FILE = 'input.txt'
+INPUT_FILE = 'input.txt'
 
 
 def print_bin_tree(node: AbstractNode, ind):
