@@ -37,7 +37,7 @@ def test(argv):
 def main(argv):
     if '--test' in argv:
         test(argv)
-        return
+        return 1
 
     input_text = input('> ')
     lexer = sqlLexer(antlr4.InputStream(input_text))
@@ -64,4 +64,5 @@ def main(argv):
 
 if __name__ == '__main__':
     while True:
-        main(sys.argv)
+        if main(sys.argv) == 1:
+            break
