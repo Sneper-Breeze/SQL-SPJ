@@ -120,7 +120,7 @@ class SQLLogic(sqlListener):
                 if (len(cond.var()) != 0):
                     self.curr_node.set_LChild(SelectionNode(attr[0], cond.var()[0].getText(),
                                                             [comp.getText() for comp in
-                                                                            cond.comparison()]))
+                                                             cond.comparison()]))
                 else:
                     self.curr_node.set_LChild(SelectionNode(attr[0], attr[1], cond.comparison().getText()))
                 self.curr_node = self.curr_node.give_LChind()
