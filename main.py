@@ -39,9 +39,9 @@ def main(argv):
         test(argv)
         return
 
-    # input_text = input('> ')
-    # lexer = sqlLexer(InputStream(input_text))
-    lexer = sqlLexer(antlr4.FileStream(INPUT_FILE))
+    input_text = input('> ')
+    lexer = sqlLexer(InputStream(input_text))
+    # lexer = sqlLexer(antlr4.FileStream(INPUT_FILE))
     stream = antlr4.CommonTokenStream(lexer)
     parser = sqlParser(stream)
     tree = parser.query()
@@ -63,4 +63,5 @@ def main(argv):
 
 
 if __name__ == '__main__':
-    main(sys.argv)
+    while True:
+        main(sys.argv)
